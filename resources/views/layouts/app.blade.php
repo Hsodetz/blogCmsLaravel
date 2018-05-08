@@ -77,10 +77,17 @@
             </div>
         </nav>
 
+        <div class="container">
+            @include('includes.mensaje')
+        </div>
+    
         @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @yield('scripts')
+
 </body>
 </html>

@@ -20,7 +20,7 @@ class TagController extends Controller
     public function index()
     {
         //Obtenemos todos los registros y los ordenamos descendentes y paginamos de 3 en 3
-        $tags = Tag::orderBy('id', 'DESC')->paginate(3);
+        $tags = Tag::orderBy('id', 'ASC')->paginate(7);
 
         //Retornamos a la vista index de la carpeta tags de la carpeta admin, y le pasamos la variable tags
         return view ('admin.tags.index', compact('tags'));
@@ -49,7 +49,7 @@ class TagController extends Controller
         //Se crea y se ingresa todo lo que viene por request y lo asignamos a la variable $tag
         $tag = Tag::create($request->all());
 
-        return redirect()->route('admin.tags.index')
+        return redirect()->route('tags.index')
                 ->with('info_success', "La etiqueta $tag->name se ha ingresado satisfactoriamente!");
     }
 
@@ -72,12 +72,12 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Tag $tag)
     {
         //De esta manera podriamos hacerlo tambien, aunque de la manera de la funcion show es mas sencillo y rapido
-        $tag = Tag::findOrFail($id);
+        //$tag = Tag::findOrFail($id);
 
-        return view('admin.tags.edit', ['tag' => $tag]);
+        return view('admin.tags.edit', compact('tag'));
     }
 
     /**
@@ -92,7 +92,7 @@ class TagController extends Controller
         //
         $tag = Tag::update($request->all());
 
-        return redirect()->route('admin.tags.index')
+        return redirect()->route('tags.index')
                 ->with('info_success', "La etiqueta $tag->name se ha actualizado satisfactoriamente!");
 
     }
