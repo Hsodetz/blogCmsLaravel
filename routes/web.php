@@ -25,7 +25,10 @@ Route::get('/category/{slug}',  'Web\PageController@category')->name('category')
 Route::get('/tag/{slug}',       'Web\PageController@tag')->name('tag');
 
 //Admin
-Route::resource('tags', 'Admin\TagController');
-Route::resource('categories', 'Admin\CategoryController');
-Route::resource('posts', 'Admin\PostController');
+Route::group(['middleware' => ['auth']], function(){
+  Route::resource('tags', 'Admin\TagController');
+  Route::resource('categories', 'Admin\CategoryController');
+  Route::resource('posts', 'Admin\PostController');
+});
+
 
