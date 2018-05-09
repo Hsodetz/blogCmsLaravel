@@ -49,7 +49,7 @@ class TagController extends Controller
         //Se crea y se ingresa todo lo que viene por request y lo asignamos a la variable $tag
         $tag = Tag::create($request->all());
 
-        return redirect()->route('tags.index')
+        return redirect()->route('tags.edit', $tag->id)
                 ->with('info_success', "La etiqueta $tag->name se ha ingresado satisfactoriamente!");
     }
 
@@ -72,10 +72,10 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tag $tag)
+    public function edit($id)
     {
         //De esta manera podriamos hacerlo tambien, aunque de la manera de la funcion show es mas sencillo y rapido
-        //$tag = Tag::findOrFail($id);
+        $tag = Tag::findOrFail($id);
 
         return view('admin.tags.edit', compact('tag'));
     }
@@ -87,12 +87,16 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TagUpdateRequest $request, Tag $tag)
+    public function update(TagUpdateRequest $request, $id)
     {
         //
-        $tag = Tag::update($request->all());
+        dd($id);
+        
+        $tag = Tag::find($id);
+        
+        $tag->fill($request->all())->save();
 
-        return redirect()->route('tags.index')
+        return redirect()->route('tags.edit', $tag->id)
                 ->with('info_success', "La etiqueta $tag->name se ha actualizado satisfactoriamente!");
 
     }

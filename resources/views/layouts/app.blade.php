@@ -76,12 +76,15 @@
                 </div>
             </div>
         </nav>
-
+            
         <div class="container">
+
             @include('includes.mensaje')
+
+            @yield('content')
+
         </div>
-    
-        @yield('content')
+        
     </div>
 
     <!-- Scripts -->

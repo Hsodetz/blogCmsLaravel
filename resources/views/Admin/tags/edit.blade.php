@@ -11,7 +11,8 @@
     </div>
     <div class="panel-body">
       
-      {!! Form::model($tag, ['route' => ['tags.update', $tag->id, 'method' => 'PUT']]) !!}
+
+      {!! Form::model($tag, ['method' => 'PUT', 'route' => ['tags.update', $tag->id]]) !!}
 
         @include('admin.tags.partials.form')
       
