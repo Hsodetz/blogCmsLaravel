@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+//Invocamos la clase de almacenado, para almacenar imagenes, entre otros
+use Illuminate\Support\Facades\Storage;
 
 use Auth;
 use App\Post;
@@ -60,6 +62,17 @@ class PostController extends Controller
         //
         $post = Post::create($request->all());
 
+        //Aqui agregamos la imagen si existe
+        if ($request->file('file')) {
+            // Le decimos que se almacene en la variable $path el nombre del archivo, y a su vez se guarde en public/image
+            $path = Storage::disk('public')->put('image', $request->file('file'));
+            //actualizamos y salvamos con la extension necesaria, ejm http://xxxx/imagexxxx.jpg
+            $post->fill(['file' => asset($path)])->save();
+        }
+
+        //Ahora vamos con la relacion del post y las etiquetas
+        $post->tags()->sync($request->get('tags'));
+
         return redirect()->route('posts.index')
                 ->with('info_success', "La entrada $post->name se ha creado satisfactoriamente!");
     }
@@ -113,6 +126,17 @@ class PostController extends Controller
         $post->name = $request->name;
         $post->slug = $request->slug;
         $post->body = $request->body;
+
+        //Aqui agregamos la imagen si existe
+        if ($request->file('file')) {
+        // Le decimos que se almacene en la variable $path el nombre del archivo, y a su vez se guarde en public/image
+        $path = Storage::disk('public')->put('image', $request->file('file'));
+        //actualizamos y salvamos con la extension necesaria, ejm http://xxxx/imagexxxx.jpg
+        $post->fill(['file' => asset($path)])->save();
+        }
+
+        //Ahora vamos con la relacion del post y las etiquetas
+        $post->tags()->sync($request->get('tags'));
 
         $post->save();
         //$post->update($request->all());
