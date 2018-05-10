@@ -10,7 +10,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         Categoria 
-        <a href="{{ route('category', $post->category->slug) }}" class="badge badge-info"> {{ $post->category->name }} </a>
+        <a href="{{ route('category', $post->category->slug) }}" class="label label-info"> {{ $post->category->name }} </a>
       </div>
       <div class="panel-body">
         
@@ -25,7 +25,7 @@
         Etiquetas
         
         @foreach ($post->tags as $tag)
-          <a href="{{ route('tag', $tag->slug) }}" class="badge badge-primary"> {{ $tag->name }}  </a>
+          <a href="{{ route('tag', $tag->slug) }}" class="label label-primary"> {{ $tag->name }}  </a>
         @endforeach
         
       </div>
